@@ -47,10 +47,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
   const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && task.status !== 'completed';
 
   return (
-    <div className={`task-card ${getPriorityClass(task.priority)} ${isOverdue ? 'bg-red-50' : ''}`}>
+    <div className={`task-card group ${getPriorityClass(task.priority)} ${isOverdue ? 'bg-red-50' : ''} transform transition-all duration-200 hover:scale-[1.02] hover:shadow-lg`}>
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.title}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-1 group-hover:text-primary-700 transition-colors">{task.title}</h3>
             {taskProject && (
               <div className="flex items-center gap-2 mb-2">
                 <div 
@@ -66,10 +66,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
           </div>
         
         {canEdit && (
-          <div className="flex gap-1 ml-4">
+          <div className="flex gap-1 ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <button
               onClick={() => onEdit(task)}
-              className="text-gray-400 hover:text-primary-600 transition-colors"
+              className="text-gray-400 hover:text-primary-600 transition-all duration-200 hover:scale-110 p-1"
+              title="Edit task"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -77,7 +78,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
             </button>
             <button
               onClick={() => deleteTask(task.id)}
-              className="text-gray-400 hover:text-danger-600 transition-colors"
+              className="text-gray-400 hover:text-danger-600 transition-all duration-200 hover:scale-110 p-1"
+              title="Delete task"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -88,7 +90,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
       </div>
 
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(task.status)} transition-all duration-200 hover:scale-105 cursor-default`}>
             {task.status.replace('-', ' ')}
           </span>
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -155,26 +157,26 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
         </div>
       )}
 
-      {isAssignedToCurrentUser && (
-        <div className="flex gap-2">
-          {task.status === 'todo' && (
-            <button
-              onClick={() => handleStatusChange('in-progress')}
-              className="flex-1 px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
-            >
-              Start Working
-            </button>
-          )}
-          {task.status === 'in-progress' && (
-            <button
-              onClick={() => handleStatusChange('completed')}
-              className="flex-1 px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors"
-            >
-              Mark Complete
-            </button>
-          )}
-        </div>
-      )}
+       {isAssignedToCurrentUser && (
+         <div className="flex gap-2">
+           {task.status === 'todo' && (
+             <button
+               onClick={() => handleStatusChange('in-progress')}
+               className="flex-1 px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-all duration-200 hover:shadow-md hover:scale-[1.02] font-medium"
+             >
+               Start Working
+             </button>
+           )}
+           {task.status === 'in-progress' && (
+             <button
+               onClick={() => handleStatusChange('completed')}
+               className="flex-1 px-3 py-1 bg-green-500 text-white text-sm rounded-md hover:bg-green-600 transition-all duration-200 hover:shadow-md hover:scale-[1.02] font-medium"
+             >
+               Mark Complete
+             </button>
+           )}
+         </div>
+       )}
 
       <div className="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-400">
         Created {new Date(task.createdAt).toLocaleDateString()} by {users.find((u: any) => u.id === task.createdBy)?.name}

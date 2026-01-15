@@ -69,16 +69,23 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [state, dispatch] = useReducer(userReducer, initialState);
 
   useEffect(() => {
-    dispatch({ type: 'SET_LOADING', payload: true });
-    try {
-      const users = LocalStorageService.getUsers();
-      const currentUser = LocalStorageService.getCurrentUser();
-      dispatch({ type: 'SET_USERS', payload: users });
-      dispatch({ type: 'SET_CURRENT_USER', payload: currentUser });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: 'Failed to load user data' });
-    } finally {
-      dispatch({ type: 'SET_LOADING', payload: false });
+    // Only run in browser environment
+    if (typeof window !== 'undefined') {
+      const storedUsers = LocalStorageService.getUsers();
+      
+      // Only load users, not the current user (force fresh login)
+      if (storedUsers) {
+        dispatch({ type: 'SET_USERS', payload: storedUsers });
+      }
+      
+      // Check if user should be remembered (optional)
+      const rememberMe = localStorage.getItem('advanced-todo-remember-me');
+      if (rememberMe === 'true') {
+        const storedUser = LocalStorageService.getCurrentUser();
+        if (storedUser) {
+          dispatch({ type: 'SET_CURRENT_USER', payload: storedUser });
+        }
+      }
     }
   }, []);
 
