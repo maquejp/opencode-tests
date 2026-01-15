@@ -119,6 +119,11 @@ export class LocalStorageService {
         createdAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
         updatedAt: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
         assignedTo: ['1', '2', '4'],
+        roleAssignments: [
+          { userId: '1', role: 'admin', assignedAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000), assignedBy: '1' },
+          { userId: '2', role: 'pm', assignedAt: new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000), assignedBy: '1' },
+          { userId: '4', role: 'designer', assignedAt: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000), assignedBy: '1' },
+        ],
         dueDate: nextMonth,
         tags: ['design', 'frontend', 'marketing'],
         color: '#3B82F6',
@@ -132,6 +137,10 @@ export class LocalStorageService {
         createdAt: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
         updatedAt: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000),
         assignedTo: ['2', '3'],
+        roleAssignments: [
+          { userId: '2', role: 'pm', assignedAt: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000), assignedBy: '1' },
+          { userId: '3', role: 'developer', assignedAt: new Date(now.getTime() - 4 * 24 * 60 * 60 * 1000), assignedBy: '1' },
+        ],
         dueDate: new Date(now.getTime() + 20 * 24 * 60 * 60 * 1000),
         tags: ['mobile', 'development'],
         color: '#10B981',
@@ -145,6 +154,9 @@ export class LocalStorageService {
         createdAt: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000),
         updatedAt: new Date(),
         assignedTo: ['3'],
+        roleAssignments: [
+          { userId: '3', role: 'developer', assignedAt: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000), assignedBy: '2' },
+        ],
         dueDate: new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000),
         tags: ['backend', 'integration'],
         color: '#F59E0B',

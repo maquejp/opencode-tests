@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Project } from '../types';
+import { Project, ProjectRole } from '../types';
 import { useProject, useUser } from '../contexts';
 
 interface ProjectManagementProps {
@@ -281,6 +281,12 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
         const newProject = {
           ...formData,
           assignedTo: formData.assignedTo.length > 0 ? formData.assignedTo : (currentUser?.id ? [currentUser.id] : []),
+          roleAssignments: formData.assignedTo.length > 0 ? formData.assignedTo.map(userId => ({
+            userId,
+            role: 'developer' as ProjectRole['role'],
+            assignedAt: new Date(),
+            assignedBy: currentUser?.id || '',
+          })) : [],
           dueDate: formData.dueDate ? new Date(formData.dueDate) : undefined,
           tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
           createdBy: currentUser?.id || '',

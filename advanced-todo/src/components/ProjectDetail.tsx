@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Project } from '../types';
+import { Project, ProjectRole } from '../types';
 import { useProject, useTask, useUser } from '../contexts';
 import TaskCard from './TaskCard';
+import ProjectRoleManagement from './ProjectRoleManagement';
 
 interface ProjectDetailProps {
   projectId: string;
@@ -21,6 +22,11 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   const { users = [], currentUser } = useUser();
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  
+  // Initialize role assignments if they don't exist
+  const [roleAssignments, setRoleAssignments] = useState<ProjectRole[]>(
+    projects.find(p => p.id === projectId)?.roleAssignments || []
+  );
   
   const project = projects.find(p => p.id === projectId);
   const projectTasks = tasks.filter(task => task.projectId === projectId);
@@ -184,6 +190,13 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
                 )}
               </div>
             </div>
+
+            {/* Project Roles */}
+            <ProjectRoleManagement
+              roleAssignments={roleAssignments}
+              onRoleAssignmentsChange={setRoleAssignments}
+              disabled={!currentUser || currentUser.role !== 'admin'}
+            />
             
             {/* Project Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">

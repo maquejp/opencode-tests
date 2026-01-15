@@ -7,6 +7,13 @@ export interface User {
   createdAt: Date;
 }
 
+export interface ProjectRole {
+  userId: string;
+  role: 'developer' | 'pm' | 'analyst' | 'devops' | 'designer' | 'qa' | 'admin';
+  assignedAt: Date;
+  assignedBy: string;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -16,6 +23,7 @@ export interface Project {
   createdAt: Date;
   updatedAt: Date;
   assignedTo: string[];
+  roleAssignments: ProjectRole[];
   dueDate?: Date;
   tags: string[];
   color?: string;
