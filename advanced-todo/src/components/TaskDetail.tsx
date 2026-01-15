@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTask, useUser } from '../contexts';
-import { Task, Comment } from '../types';
+import { Task } from '../types';
 
 interface TaskDetailProps {
   task: Task;
@@ -10,12 +10,12 @@ interface TaskDetailProps {
 
 const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate }) => {
   const { getCommentsForTask, addComment } = useTask();
-  const { users, currentUser } = useUser();
+  const { users = [], currentUser } = useUser();
   const [newComment, setNewComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
   const comments = getCommentsForTask(task.id);
-  const assignedUsers = users.filter(user => task.assignedTo.includes(user.id));
+  const assignedUsers = users.filter((user: any) => task.assignedTo.includes(user.id));
 
   const handleSubmitComment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,7 +113,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   <span className="text-sm text-gray-900">
-                    Created by: {users.find(u => u.id === task.createdBy)?.name}
+                    Created by: {users.find((u: any) => u.id === task.createdBy)?.name}
                   </span>
                 </div>
 
@@ -132,7 +132,7 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate }) => {
               <h3 className="text-sm font-medium text-gray-500 mb-2">Assigned To</h3>
               <div className="space-y-2">
                 {assignedUsers.length > 0 ? (
-                  assignedUsers.map(user => (
+                  assignedUsers.map((user: any) => (
                     <div key={user.id} className="flex items-center gap-2">
                       <img
                         src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
@@ -190,8 +190,8 @@ const TaskDetail: React.FC<TaskDetailProps> = ({ task, onClose, onUpdate }) => {
 
             <div className="space-y-3 max-h-64 overflow-y-auto">
               {comments.length > 0 ? (
-                comments.map(comment => {
-                  const commentUser = users.find(u => u.id === comment.userId);
+                comments.map((comment: any) => {
+                  const commentUser = users.find((u: any) => u.id === comment.userId);
                   return (
                     <div key={comment.id} className="flex gap-3 p-3 bg-gray-50 rounded-lg">
                       <img

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Task } from '../types';
 import { useTask, useUser } from '../contexts';
+import { useProject } from '../contexts';
 
 interface TaskFormProps {
   task?: Task;
@@ -9,8 +10,10 @@ interface TaskFormProps {
 
 const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
   const { createTask, updateTask } = useTask();
-  const { users, currentUser } = useUser();
+  const { users = [], currentUser } = useUser();
+  const { getAccessibleProjects } = useProject();
   
+  const accessibleProjects = getAccessibleProjects();
   const [formData, setFormData] = useState({
     title: task?.title || '',
     description: task?.description || '',
@@ -18,7 +21,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
     priority: task?.priority || 'medium' as Task['priority'],
     assignedTo: task?.assignedTo || [],
     dueDate: task?.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '',
+    startDate: task?.startDate ? new Date(task.startDate).toISOString().split('T')[0] : '',
+    endDate: task?.endDate ? new Date(task.endDate).toISOString().split('T')[0] : '',
     tags: task?.tags.join(', ') || '',
+    projectId: task?.projectId || '',
   });
 
   const [tagInput, setTagInput] = useState('');
@@ -33,8 +39,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
       priority: formData.priority,
       assignedTo: formData.assignedTo,
       dueDate: formData.dueDate ? new Date(formData.dueDate) : undefined,
+      startDate: formData.startDate ? new Date(formData.startDate) : undefined,
+      endDate: formData.endDate ? new Date(formData.endDate) : undefined,
       tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
       createdBy: currentUser?.id || '',
+      projectId: formData.projectId || undefined,
     };
 
     if (task) {
@@ -100,38 +109,79 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Status
-              </label>
-              <select
-                value={formData.status}
-                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as Task['status'] }))}
-                className="input-field"
-              >
-                <option value="todo">To Do</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Status
+            </label>
+            <select
+              value={formData.status}
+              onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as Task['status'] }))}
+              className="input-field"
+            >
+              <option value="todo">To Do</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Priority
-              </label>
-              <select
-                value={formData.priority}
-                onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as Task['priority'] }))}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Priority
+            </label>
+            <select
+              value={formData.priority}
+              onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as Task['priority'] }))}
+              className="input-field"
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Project
+            </label>
+            <select
+              value={formData.projectId}
+              onChange={(e) => setFormData(prev => ({ ...prev, projectId: e.target.value }))}
+              className="input-field"
+            >
+              <option value="">Standalone Task</option>
+              {accessibleProjects.map(project => (
+                <option key={project.id} value={project.id}>{project.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Duration
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="date"
+                value={formData.startDate}
+                onChange={(e) => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
                 className="input-field"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
+                placeholder="Start Date"
+              />
+              <span className="flex items-center text-gray-500">to</span>
+              <input
+                type="date"
+                value={formData.endDate}
+                onChange={(e) => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
+                className="input-field"
+                placeholder="End Date"
+              />
             </div>
           </div>
+        </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -150,7 +200,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
               Assign To
             </label>
             <div className="space-y-2 max-h-32 overflow-y-auto border border-gray-200 rounded-lg p-3">
-              {users.map(user => (
+              {users.map((user: any) => (
                 <label key={user.id} className="flex items-center space-x-3 cursor-pointer">
                   <input
                     type="checkbox"

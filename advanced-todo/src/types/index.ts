@@ -7,6 +7,20 @@ export interface User {
   createdAt: Date;
 }
 
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  status: 'active' | 'completed' | 'archived';
+  createdBy: string;
+  createdAt: Date;
+  updatedAt: Date;
+  assignedTo: string[];
+  dueDate?: Date;
+  tags: string[];
+  color?: string;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -18,7 +32,10 @@ export interface Task {
   createdAt: Date;
   updatedAt: Date;
   dueDate?: Date;
+  startDate?: Date;
+  endDate?: Date;
   tags: string[];
+  projectId?: string;
 }
 
 export interface Comment {
@@ -46,4 +63,5 @@ export interface FilterState {
   search: string;
   sortBy: 'createdAt' | 'dueDate' | 'priority';
   sortOrder: 'asc' | 'desc';
+  projectId?: string | 'all';
 }

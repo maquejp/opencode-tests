@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useTask, useUser } from '../contexts';
+import { useProject } from '../contexts';
 import { FilterState } from '../types';
 
 const TaskFilters: React.FC = () => {
-  const { filters, setFilters, users } = useTask();
-  const { currentUser } = useUser();
+  const { filters, setFilters } = useTask();
+  const { users = [], currentUser } = useUser();
+  const { getAccessibleProjects } = useProject();
   const [showAdvanced, setShowAdvanced] = useState(false);
+
+  const accessibleProjects = getAccessibleProjects();
 
   const handleFilterChange = (key: keyof FilterState, value: any) => {
     setFilters({ [key]: value });
@@ -59,7 +63,7 @@ const TaskFilters: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Search
@@ -115,17 +119,34 @@ const TaskFilters: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Assigned To
           </label>
-          <select
-            value={filters.assignedTo}
-            onChange={(e) => handleFilterChange('assignedTo', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
-          >
-            <option value="all">Anyone</option>
-            <option value={currentUser?.id}>Me</option>
-            {users.filter(u => u.id !== currentUser?.id).map(user => (
-              <option key={user.id} value={user.id}>{user.name}</option>
-            ))}
-          </select>
+            <select
+              value={filters.assignedTo}
+              onChange={(e) => handleFilterChange('assignedTo', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            >
+              <option value="all">Anyone</option>
+              <option value={currentUser?.id}>Me</option>
+              {users.filter((u: any) => u.id !== currentUser?.id).map((user: any) => (
+                <option key={user.id} value={user.id}>{user.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Project
+            </label>
+            <select
+              value={filters.projectId || 'all'}
+              onChange={(e) => handleFilterChange('projectId', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+            >
+              <option value="all">All Projects</option>
+              <option value="">Standalone Tasks</option>
+              {accessibleProjects.map(project => (
+                <option key={project.id} value={project.id}>{project.name}</option>
+              ))}
+            </select>
         </div>
       </div>
 

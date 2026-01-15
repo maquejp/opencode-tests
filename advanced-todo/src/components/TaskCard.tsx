@@ -1,6 +1,7 @@
 import React from 'react';
 import { Task } from '../types';
 import { useTask, useUser } from '../contexts';
+import { useProject } from '../contexts';
 
 interface TaskCardProps {
   task: Task;
@@ -9,10 +10,13 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
   const { deleteTask, updateTask, getCommentsForTask } = useTask();
-  const { users, currentUser } = useUser();
+  const { users = [], currentUser } = useUser();
+  const { getAccessibleProjects } = useProject();
 
-  const assignedUsers = users.filter(user => task.assignedTo.includes(user.id));
+  const assignedUsers = users.filter((user: any) => task.assignedTo.includes(user.id));
   const comments = getCommentsForTask(task.id);
+  const projects = getAccessibleProjects();
+  const taskProject = task.projectId ? projects.find(p => p.id === task.projectId) : null;
 
   const getStatusColor = (status: Task['status']) => {
     switch (status) {
@@ -44,11 +48,22 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
 
   return (
     <div className={`task-card ${getPriorityClass(task.priority)} ${isOverdue ? 'bg-red-50' : ''}`}>
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.title}</h3>
-          <p className="text-gray-600 text-sm line-clamp-2">{task.description}</p>
-        </div>
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.title}</h3>
+            {taskProject && (
+              <div className="flex items-center gap-2 mb-2">
+                <div 
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: taskProject.color }}
+                ></div>
+                <span className="px-2 py-1 text-xs font-medium rounded-full" style={{ backgroundColor: taskProject.color + '20', color: taskProject.color }}>
+                  {taskProject.name}
+                </span>
+              </div>
+            )}
+            <p className="text-gray-600 text-sm line-clamp-2">{task.description}</p>
+          </div>
         
         {canEdit && (
           <div className="flex gap-1 ml-4">
@@ -72,23 +87,23 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
         )}
       </div>
 
-      <div className="flex items-center gap-2 mb-3">
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
-          {task.status.replace('-', ' ')}
-        </span>
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          task.priority === 'high' ? 'bg-red-100 text-red-700' :
-          task.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-          'bg-green-100 text-green-700'
-        }`}>
-          {task.priority}
-        </span>
-        {isOverdue && (
-          <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
-            Overdue
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
+            {task.status.replace('-', ' ')}
           </span>
-        )}
-      </div>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+            task.priority === 'high' ? 'bg-red-100 text-red-700' :
+            task.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+            'bg-green-100 text-green-700'
+          }`}>
+            {task.priority}
+          </span>
+          {isOverdue && (
+            <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+              Overdue
+            </span>
+          )}
+        </div>
 
       {task.dueDate && (
         <div className="flex items-center gap-1 text-sm text-gray-500 mb-3">
@@ -117,7 +132,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-500">Assigned to:</span>
             <div className="flex -space-x-2">
-              {assignedUsers.map(user => (
+              {assignedUsers.map((user: any) => (
                 <img
                   key={user.id}
                   src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
@@ -162,7 +177,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
       )}
 
       <div className="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-400">
-        Created {new Date(task.createdAt).toLocaleDateString()} by {users.find(u => u.id === task.createdBy)?.name}
+        Created {new Date(task.createdAt).toLocaleDateString()} by {users.find((u: any) => u.id === task.createdBy)?.name}
       </div>
     </div>
   );

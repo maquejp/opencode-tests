@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { Task, Comment, Notification, FilterState } from '../types';
+import { Task, Comment, Notification, FilterState, Project } from '../types';
 import { LocalStorageService } from '../services/storage';
 import { useUser } from './UserContext';
 
@@ -96,7 +96,7 @@ interface TaskContextType extends TaskState {
   getCommentsForTask: (taskId: string) => Comment[];
   markNotificationRead: (notificationId: string) => void;
   getUnreadNotifications: () => Notification[];
-  getFilteredTasks: () => Task[];
+  getFilteredTasks: (accessibleProjects?: Project[]) => Task[];
   setFilters: (filters: Partial<FilterState>) => void;
   refreshTasks: () => void;
 }
@@ -105,7 +105,7 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
-  const { currentUser, users } = useUser();
+  const { currentUser } = useUser();
 
   useEffect(() => {
     dispatch({ type: 'SET_LOADING', payload: true });
@@ -239,7 +239,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return state.notifications.filter(notif => !notif.read);
   };
 
-  const getFilteredTasks = (): Task[] => {
+  const getFilteredTasks = (accessibleProjects: Project[] = []): Task[] => {
     let filtered = [...state.tasks];
 
     if (state.filters.status !== 'all') {
@@ -254,6 +254,10 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       filtered = filtered.filter(task => task.assignedTo.includes(state.filters.assignedTo));
     }
 
+    if (state.filters.projectId && state.filters.projectId !== 'all') {
+      filtered = filtered.filter(task => task.projectId === state.filters.projectId);
+    }
+
     if (state.filters.search) {
       const searchLower = state.filters.search.toLowerCase();
       filtered = filtered.filter(task =>
@@ -263,14 +267,23 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       );
     }
 
+    // Filter tasks based on accessible projects (admin sees all, users see only their assigned projects)
+    if (accessibleProjects.length > 0) {
+      const accessibleProjectIds = accessibleProjects.map(p => p.id);
+      filtered = filtered.filter(task => 
+        !task.projectId || // Standalone tasks are visible to all
+        accessibleProjectIds.includes(task.projectId)
+      );
+    }
+
     filtered.sort((a, b) => {
       const aValue = a[state.filters.sortBy];
       const bValue = b[state.filters.sortBy];
       
       if (state.filters.sortOrder === 'asc') {
-        return aValue > bValue ? 1 : -1;
+        return (aValue || 0) > (bValue || 0) ? 1 : -1;
       } else {
-        return aValue < bValue ? 1 : -1;
+        return (aValue || 0) < (bValue || 0) ? 1 : -1;
       }
     });
 
