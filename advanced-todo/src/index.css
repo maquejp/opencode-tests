@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .task-card {
+    @apply bg-white rounded-lg shadow-md p-4 border border-secondary-200 hover:shadow-lg transition-all duration-200;
+  }
+
+  .priority-high {
+    @apply border-l-4 border-danger-500;
+  }
+
+  .priority-medium {
+    @apply border-l-4 border-warning-500;
+  }
+
+  .priority-low {
+    @apply border-l-4 border-success-500;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors duration-200 font-medium;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-200 text-secondary-700 px-4 py-2 rounded-lg hover:bg-secondary-300 transition-colors duration-200 font-medium;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+}
+
+code {
+  font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+}
