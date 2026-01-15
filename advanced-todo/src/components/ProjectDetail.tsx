@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Project } from '../types';
 import { useProject, useTask, useUser } from '../contexts';
 import TaskCard from './TaskCard';
@@ -16,9 +16,11 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   onEditProject, 
   onGanttView 
 }) => {
-  const { projects = [] } = useProject();
+  const { projects = [], updateProject } = useProject();
   const { tasks = [] } = useTask();
-  const { users = [] } = useUser();
+  const { users = [], currentUser } = useUser();
+  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
   
   const project = projects.find(p => p.id === projectId);
   const projectTasks = tasks.filter(task => task.projectId === projectId);
@@ -52,7 +54,17 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   const handleEditTask = (task: any) => {
     console.log('Edit task in project:', task);
   };
-  
+
+  const handleEditProject = (project: Project) => {
+    setEditingProject(project);
+    setShowProjectForm(true);
+  };
+
+  const handleCloseProjectForm = () => {
+    setShowProjectForm(false);
+    setEditingProject(null);
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
       {/* Header */}
@@ -91,7 +103,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
               
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => onEditProject(project)}
+                  onClick={() => handleEditProject(project)}
                   className="btn-secondary"
                   title="Edit Project"
                 >
@@ -210,6 +222,97 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
           </div>
         )}
       </div>
+
+      {/* Project Edit Modal */}
+      {showProjectForm && editingProject && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900">Edit Project</h2>
+              <button 
+                onClick={handleCloseProjectForm}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Project Name</label>
+                  <input
+                    type="text"
+                    value={editingProject.name}
+                    onChange={(e) => setEditingProject({...editingProject, name: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <textarea
+                    value={editingProject.description}
+                    onChange={(e) => setEditingProject({...editingProject, description: e.target.value})}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select
+                      value={editingProject.status}
+                      onChange={(e) => setEditingProject({...editingProject, status: e.target.value as Project['status']})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    >
+                      <option value="active">Active</option>
+                      <option value="completed">Completed</option>
+                      <option value="archived">Archived</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                    <input
+                      type="color"
+                      value={editingProject.color}
+                      onChange={(e) => setEditingProject({...editingProject, color: e.target.value})}
+                      className="w-full h-10 rounded-lg border border-gray-300"
+                    />
+                  </div>
+                </div>
+                
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={handleCloseProjectForm}
+                    className="flex-1 btn-secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateProject({
+                        ...editingProject,
+                        updatedAt: new Date(),
+                      });
+                      handleCloseProjectForm();
+                    }}
+                    className="flex-1 btn-primary"
+                  >
+                    Update Project
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

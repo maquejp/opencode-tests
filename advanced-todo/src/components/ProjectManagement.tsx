@@ -247,7 +247,7 @@ interface ProjectFormProps {
 }
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
-  const { updateProject } = useProject();
+  const { updateProject, createProject } = useProject();
   const { currentUser, users = [] } = useUser();
   
   const [formData, setFormData] = useState({
@@ -280,12 +280,12 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
       } else {
         const newProject = {
           ...formData,
-          assignedTo: formData.assignedTo.length > 0 ? formData.assignedTo : [currentUser?.id],
+          assignedTo: formData.assignedTo.length > 0 ? formData.assignedTo : (currentUser?.id ? [currentUser.id] : []),
           dueDate: formData.dueDate ? new Date(formData.dueDate) : undefined,
           tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+          createdBy: currentUser?.id || '',
         };
-        // For now, we'll just log it since createProject isn't implemented
-        console.log('New project:', newProject);
+        createProject(newProject);
         onClose();
       }
     } catch (err) {
