@@ -24,6 +24,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [showTaskForm, setShowTaskForm] = useState(false);
+  const [editingTask, setEditingTask] = useState<any>(null);
   
   // Initialize role assignments if they don't exist
   const [roleAssignments, setRoleAssignments] = useState<ProjectRole[]>(
@@ -60,7 +61,8 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   };
   
   const handleEditTask = (task: any) => {
-    console.log('Edit task in project:', task);
+    setEditingTask(task);
+    setShowTaskForm(true);
   };
 
   const handleEditProject = (project: Project) => {
@@ -79,6 +81,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
 
   const handleCloseTaskForm = () => {
     setShowTaskForm(false);
+    setEditingTask(null);
   };
 
   const handleCreateTask = (taskData: any) => {
@@ -274,7 +277,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
       {showTaskForm && (
         <TaskForm
           onClose={handleCloseTaskForm}
-          task={undefined}
+          task={editingTask}
         />
       )}
 

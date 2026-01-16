@@ -40,6 +40,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+    console.log('Submitting tags:', tags); // Debug log
+    
     const taskData = {
       title: formData.title,
       description: formData.description,
@@ -49,7 +52,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
       dueDate: formData.dueDate ? new Date(formData.dueDate) : undefined,
       startDate: formData.startDate ? new Date(formData.startDate) : undefined,
       endDate: formData.endDate ? new Date(formData.endDate) : undefined,
-      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+      tags: tags,
       createdBy: currentUser?.id || '',
       projectId: formData.projectId || undefined,
     };
@@ -75,6 +78,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
   const addTag = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && tagInput.trim()) {
       e.preventDefault();
+      e.stopPropagation();
       const currentTags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
       const newTags = [...currentTags, tagInput.trim()];
       setFormData(prev => ({ ...prev, tags: newTags.join(', ') }));
@@ -242,10 +246,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
                 className="input-field flex-1"
               />
             </div>
-            <div className="mt-2 flex flex-wrap gap-2">
+<div className="mt-2 flex flex-wrap gap-2">
               {formData.tags.split(',').map((tag, index) => {
                 const trimmedTag = tag.trim();
                 if (!trimmedTag) return null;
+                console.log('Current tags for display:', trimmedTag); // Debug log
                 return (
                   <span
                     key={index}
