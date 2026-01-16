@@ -3,6 +3,7 @@ import { Project, ProjectRole } from '../types';
 import { useProject, useTask, useUser } from '../contexts';
 import TaskCard from './TaskCard';
 import ProjectRoleManagement from './ProjectRoleManagement';
+import TaskForm from './TaskForm';
 
 interface ProjectDetailProps {
   projectId: string;
@@ -18,10 +19,11 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   onGanttView 
 }) => {
   const { projects = [], updateProject } = useProject();
-  const { tasks = [] } = useTask();
+  const { tasks = [], createTask } = useTask();
   const { users = [], currentUser } = useUser();
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [showTaskForm, setShowTaskForm] = useState(false);
   
   // Initialize role assignments if they don't exist
   const [roleAssignments, setRoleAssignments] = useState<ProjectRole[]>(
@@ -69,6 +71,21 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   const handleCloseProjectForm = () => {
     setShowProjectForm(false);
     setEditingProject(null);
+  };
+
+  const handleAddTask = () => {
+    setShowTaskForm(true);
+  };
+
+  const handleCloseTaskForm = () => {
+    setShowTaskForm(false);
+  };
+
+  const handleCreateTask = (taskData: any) => {
+    createTask({
+      ...taskData,
+      projectId: projectId
+    });
   };
 
   return (
@@ -213,7 +230,18 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
       
       {/* Tasks Section */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Project Tasks</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900">Project Tasks</h2>
+          <button
+            onClick={handleAddTask}
+            className="btn-primary flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add Task
+          </button>
+        </div>
         
         {projectTasks.length === 0 ? (
           <div className="text-center py-8">
@@ -221,7 +249,13 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
             <h3 className="text-lg font-medium text-gray-900 mb-1">No tasks yet</h3>
-            <p className="text-gray-500">Tasks assigned to this project will appear here.</p>
+            <p className="text-gray-500 mb-4">Tasks assigned to this project will appear here.</p>
+            <button
+              onClick={handleAddTask}
+              className="btn-primary"
+            >
+              Create First Task
+            </button>
           </div>
         ) : (
           <div className="space-y-4">
@@ -235,6 +269,14 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
           </div>
         )}
       </div>
+
+      {/* Task Form Modal */}
+      {showTaskForm && (
+        <TaskForm
+          onClose={handleCloseTaskForm}
+          task={undefined}
+        />
+      )}
 
       {/* Project Edit Modal */}
       {showProjectForm && editingProject && (

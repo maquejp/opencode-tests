@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Task } from '../types';
 import { useTask, useUser } from '../contexts';
 import { useProject } from '../contexts';
+import { useParams } from 'react-router-dom';
 
 interface TaskFormProps {
   task?: Task;
@@ -12,6 +13,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
   const { createTask, updateTask } = useTask();
   const { users = [], currentUser } = useUser();
   const { getAccessibleProjects } = useProject();
+  const { projectId: urlProjectId } = useParams<{ projectId: string }>();
   
   const accessibleProjects = getAccessibleProjects();
   const [formData, setFormData] = useState({
@@ -26,6 +28,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
     tags: task?.tags.join(', ') || '',
     projectId: task?.projectId || '',
   });
+
+  useEffect(() => {
+    if (urlProjectId && !task) {
+      setFormData(prev => ({ ...prev, projectId: urlProjectId }));
+    }
+  }, [urlProjectId, task]);
 
   const [tagInput, setTagInput] = useState('');
 
