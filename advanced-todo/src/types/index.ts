@@ -9,9 +9,19 @@ export interface User {
 
 export interface ProjectRole {
   userId: string;
-  role: 'developer' | 'pm' | 'analyst' | 'devops' | 'designer' | 'qa' | 'admin';
+  role: string;
   assignedAt: Date;
   assignedBy: string;
+}
+
+export interface RoleDefinition {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  permissions: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Project {

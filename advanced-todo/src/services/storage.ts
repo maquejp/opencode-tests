@@ -1,4 +1,4 @@
-import { User, Task, Comment, Notification, Project } from '../types';
+import { User, Task, Comment, Notification, Project, RoleDefinition } from '../types';
 
 const STORAGE_KEYS = {
   USERS: 'advanced-todo-users',
@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
   NOTIFICATIONS: 'advanced-todo-notifications',
   CURRENT_USER: 'advanced-todo-current-user',
   PROJECTS: 'advanced-todo-projects',
+  ROLES: 'advanced-todo-roles',
 } as const;
 
 export class LocalStorageService {
@@ -66,6 +67,15 @@ export class LocalStorageService {
 
   static saveProjects(projects: Project[]): void {
     localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(projects));
+  }
+
+  static getRoles(): RoleDefinition[] {
+    const roles = localStorage.getItem(STORAGE_KEYS.ROLES);
+    return roles ? JSON.parse(roles) : this.getDefaultRoles();
+  }
+
+  static saveRoles(roles: RoleDefinition[]): void {
+    localStorage.setItem(STORAGE_KEYS.ROLES, JSON.stringify(roles));
   }
 
   private static getDefaultUsers(): User[] {
@@ -526,6 +536,74 @@ export class LocalStorageService {
         dueDate: new Date(today.getTime() + 15 * 24 * 60 * 60 * 1000),
         tags: ['monitoring', 'error-handling'],
         projectId: '3',
+      },
+    ];
+  }
+
+  private static getDefaultRoles(): RoleDefinition[] {
+    return [
+      {
+        id: 'admin',
+        name: 'Administrator',
+        description: 'Full access to all projects and system settings',
+        color: '#EF4444',
+        permissions: ['read', 'write', 'delete', 'manage_users', 'manage_projects'],
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'pm',
+        name: 'Project Manager',
+        description: 'Can manage projects, assign tasks, and view reports',
+        color: '#3B82F6',
+        permissions: ['read', 'write', 'manage_projects', 'assign_tasks'],
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'developer',
+        name: 'Developer',
+        description: 'Can work on assigned tasks and update project progress',
+        color: '#10B981',
+        permissions: ['read', 'write', 'update_tasks'],
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'designer',
+        name: 'Designer',
+        description: 'Can work on design tasks and upload assets',
+        color: '#EC4899',
+        permissions: ['read', 'write', 'update_tasks', 'upload_assets'],
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'qa',
+        name: 'QA Engineer',
+        description: 'Can test tasks and report bugs',
+        color: '#6B7280',
+        permissions: ['read', 'write', 'update_tasks', 'report_bugs'],
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'analyst',
+        name: 'Business Analyst',
+        description: 'Can create requirements and analyze project data',
+        color: '#8B5CF6',
+        permissions: ['read', 'write', 'create_requirements', 'view_reports'],
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
+      },
+      {
+        id: 'devops',
+        name: 'DevOps Engineer',
+        description: 'Can manage deployment and infrastructure',
+        color: '#F97316',
+        permissions: ['read', 'write', 'deploy', 'manage_infrastructure'],
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-01'),
       },
     ];
   }

@@ -9,11 +9,13 @@ import {
 import { UserProvider, useUser } from "./contexts/UserContext";
 import { TaskProvider } from "./contexts/TaskContext";
 import { ProjectProvider } from "./contexts/ProjectContext";
+import { RoleProvider } from "./contexts/RoleContext";
 import Header from "./components/Header";
 import TasksPage from "./pages/TasksPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import UsersPage from "./pages/UsersPage";
+import RolesPage from "./pages/RolesPage";
 import GanttPage from "./pages/GanttPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundView from "./pages/NotFoundView";
@@ -78,6 +80,7 @@ const AppContent: React.FC = () => {
                   <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
                   <Route path="/projects/:projectId/gantt" element={<GanttPage />} />
                   <Route path="/users" element={<UsersPage />} />
+                  <Route path="/roles" element={<RolesPage />} />
                   <Route path="*" element={<NotFoundView />} />
                 </Routes>
               </main>
@@ -95,11 +98,13 @@ const App: React.FC = () => {
   return (
     <UserProvider>
       <ProjectProvider>
-        <TaskProvider>
-          <Router>
-            <AppContent />
-          </Router>
-        </TaskProvider>
+        <RoleProvider>
+          <TaskProvider>
+            <Router>
+              <AppContent />
+            </Router>
+          </TaskProvider>
+        </RoleProvider>
       </ProjectProvider>
     </UserProvider>
   );

@@ -1,0 +1,56 @@
+[
+  {
+    "company": "European Commission - Directorate-General for Informatics",
+    "position": "Principal Application Architect",
+    "duration": "2018 - Present",
+    "location": "Brussels, Belgium",
+    "responsibilities": [
+      "Lead architectural design and governance for 50+ enterprise applications serving 500,000+ EU citizens",
+      "Establish and implement microservices architecture patterns across multi-cloud environments (AWS, Azure, GCP)",
+      "Define API management strategies and service mesh implementations for cross-border digital services",
+      "Mentor team of 15 architects and senior developers across 8 EU member states",
+      "Ensure compliance with GDPR, NIS2 Directive, and EU cybersecurity frameworks"
+    ],
+    "technologies": ["Kubernetes", "Docker", "Istio", "GraphQL", "Spring Boot", "Node.js", "React", "AWS", "Azure"]
+  },
+  {
+    "company": "BNP Paribas - Corporate & Investment Banking",
+    "position": "Enterprise Solutions Architect",
+    "duration": "2012 - 2018",
+    "location": "Paris, France",
+    "responsibilities": [
+      "Designed and implemented real-time trading platform architecture handling 1M+ transactions daily",
+      "Led digital transformation initiatives for retail banking across 15 European countries",
+      "Established DevOps practices and CI/CD pipelines reducing deployment time by 75%",
+      "Architected fraud detection systems using machine learning and big data technologies",
+      "Managed technology risk assessment and compliance with Basel III and MiFID II regulations"
+    ],
+    "technologies": ["Java EE", "Microservices", "Apache Kafka", "Elasticsearch", "MongoDB", "Docker", "Jenkins", "Splunk"]
+  },
+  {
+    "company": "Siemens AG - Digital Industries Software",
+    "position": "Senior Software Architect",
+    "duration": "2008 - 2012",
+    "location": "Munich, Germany",
+    "responsibilities": [
+      "Architected Industry 4.0 solutions for manufacturing clients across Europe",
+      "Designed scalable IoT platforms handling 10M+ connected devices",
+      "Led cross-functional teams in agile development methodologies",
+      "Implemented enterprise integration patterns using SAP and custom middleware"
+    ],
+    "technologies": ["C#", ".NET", "WCF", "SAP PI/PO", "MQTT", "OPC UA", "SQL Server", "Azure"]
+  },
+  {
+    "company": "Capgemini Consulting",
+    "position": "Solution Architect",
+    "duration": "2003 - 2008",
+    "location": "Paris, France",
+    "responsibilities": [
+      "Provided architectural consulting for Fortune 500 companies across Europe",
+      "Designed enterprise resource planning (ERP) systems and custom business applications",
+      "Led system integration projects merging legacy systems with modern architectures",
+      "Conducted technology assessments and roadmap planning for C-level executives"
+    ],
+    "technologies": ["J2EE", "Oracle", "IBM WebSphere", "SOA", "Web Services", "UML", "Rational Tools"]
+  }
+]

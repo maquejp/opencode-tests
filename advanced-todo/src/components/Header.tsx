@@ -4,8 +4,8 @@ import { useUser } from '../contexts';
 import NotificationCenter from './NotificationCenter';
 
 interface HeaderProps {
-  currentView?: 'tasks' | 'users' | 'projects' | 'gantt' | 'project-detail';
-  setCurrentView?: (view: 'tasks' | 'users' | 'projects' | 'gantt' | 'project-detail') => void;
+  currentView?: 'tasks' | 'users' | 'projects' | 'gantt' | 'project-detail' | 'roles';
+  setCurrentView?: (view: 'tasks' | 'users' | 'projects' | 'gantt' | 'project-detail' | 'roles') => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ currentView, setCurrentView }) => {
@@ -66,6 +66,18 @@ const Header: React.FC<HeaderProps> = ({ currentView, setCurrentView }) => {
                 >
                   Users
                 </Link>
+                {currentUser.role === 'admin' && (
+                  <Link
+                    to="/roles"
+                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                      window.location.pathname === '/roles'
+                        ? 'bg-primary-100 text-primary-700'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    Roles
+                  </Link>
+                )}
               </>
             )}
           </nav>
@@ -150,6 +162,19 @@ const Header: React.FC<HeaderProps> = ({ currentView, setCurrentView }) => {
                   >
                     Users
                   </Link>
+                  {currentUser.role === 'admin' && (
+                    <Link
+                      to="/roles"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                        window.location.pathname === '/roles'
+                          ? 'bg-primary-100 text-primary-700'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      Roles
+                    </Link>
+                  )}
                 </>
               )}
               

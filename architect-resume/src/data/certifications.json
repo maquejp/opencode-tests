@@ -1,0 +1,38 @@
+[
+  {
+    "name": "AWS Certified Solutions Architect - Professional",
+    "issuer": "Amazon Web Services",
+    "date": "2023",
+    "credentialId": "AWS-PRO-SAP-123456"
+  },
+  {
+    "name": "Azure Solutions Architect Expert",
+    "issuer": "Microsoft",
+    "date": "2022",
+    "credentialId": "AZ-305"
+  },
+  {
+    "name": "TOGAF 9.2 Certified",
+    "issuer": "The Open Group",
+    "date": "2021",
+    "credentialId": "OG0-092"
+  },
+  {
+    "name": "Certified Kubernetes Security Specialist (CKS)",
+    "issuer": "Cloud Native Computing Foundation",
+    "date": "2022",
+    "credentialId": "CKS-2022-001"
+  },
+  {
+    "name": "Professional Cloud Architect",
+    "issuer": "Google Cloud",
+    "date": "2023",
+    "credentialId": "PCA-2023-789012"
+  },
+  {
+    "name": "Certified Information Systems Security Professional (CISSP)",
+    "issuer": "ISC²",
+    "date": "2020",
+    "credentialId": "CISSP-789012"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "category": "Cloud & Infrastructure",
+    "skills": [
+      { "name": "AWS", "level": "expert" },
+      { "name": "Azure", "level": "expert" },
+      { "name": "Google Cloud", "level": "advanced" },
+      { "name": "Kubernetes", "level": "expert" },
+      { "name": "Docker", "level": "expert" },
+      { "name": "Terraform", "level": "advanced" }
+    ]
+  },
+  {
+    "category": "Programming Languages",
+    "skills": [
+      { "name": "Java", "level": "expert" },
+      { "name": "TypeScript/JavaScript", "level": "expert" },
+      { "name": "Python", "level": "advanced" },
+      { "name": "C#", "level": "advanced" },
+      { "name": "Go", "level": "intermediate" },
+      { "name": "SQL", "level": "expert" }
+    ]
+  },
+  {
+    "category": "Frameworks & Platforms",
+    "skills": [
+      { "name": "Spring Boot", "level": "expert" },
+      { "name": "React", "level": "advanced" },
+      { "name": "Node.js", "level": "expert" },
+      { "name": ".NET Core", "level": "advanced" },
+      { "name": "Angular", "level": "intermediate" },
+      { "name": "Hibernate", "level": "expert" }
+    ]
+  },
+  {
+    "category": "Architecture & Design",
+    "skills": [
+      { "name": "Microservices", "level": "expert" },
+      { "name": "Domain-Driven Design", "level": "expert" },
+      { "name": "Event-Driven Architecture", "level": "expert" },
+      { "name": "API Design", "level": "expert" },
+      { "name": "System Integration", "level": "expert" },
+      { "name": "Security Architecture", "level": "advanced" }
+    ]
+  }
+]

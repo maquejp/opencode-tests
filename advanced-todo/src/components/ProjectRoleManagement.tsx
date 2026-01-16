@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ProjectRole, User } from '../types';
-import { useUser } from '../contexts';
+import { ProjectRole } from '../types';
+import { useUser, useRole } from '../contexts';
 
 interface ProjectRoleManagementProps {
   roleAssignments: ProjectRole[];
@@ -14,18 +14,15 @@ const ProjectRoleManagement: React.FC<ProjectRoleManagementProps> = ({
   disabled = false
 }) => {
   const { users = [] } = useUser();
+  const { roles = [] } = useRole();
   const [showAddRole, setShowAddRole] = useState(false);
   const [newRole, setNewRole] = useState({
     userId: '',
-    role: 'developer' as ProjectRole['role']
+    role: ''
   });
 
-  const availableRoles: ProjectRole['role'][] = [
-    'developer', 'pm', 'analyst', 'devops', 'designer', 'qa', 'admin'
-  ];
-
   const handleAddRole = () => {
-    if (newRole.userId && users.find(u => u.id === newRole.userId)) {
+    if (newRole.userId && users.find(u => u.id === newRole.userId) && newRole.role) {
       const updatedAssignments = [
         ...roleAssignments,
         {
@@ -36,7 +33,7 @@ const ProjectRoleManagement: React.FC<ProjectRoleManagementProps> = ({
         }
       ];
       onRoleAssignmentsChange(updatedAssignments);
-      setNewRole({ userId: '', role: 'developer' });
+      setNewRole({ userId: '', role: roles[0]?.id || '' });
       setShowAddRole(false);
     }
   };
@@ -46,23 +43,18 @@ const ProjectRoleManagement: React.FC<ProjectRoleManagementProps> = ({
     onRoleAssignmentsChange(updatedAssignments);
   };
 
-  const getRoleColor = (role: ProjectRole['role']) => {
-    switch (role) {
-      case 'admin': return 'bg-red-100 text-red-700';
-      case 'pm': return 'bg-blue-100 text-blue-700';
-      case 'developer': return 'bg-green-100 text-green-700';
-      case 'analyst': return 'bg-purple-100 text-purple-700';
-      case 'devops': return 'bg-orange-100 text-orange-700';
-      case 'designer': return 'bg-pink-100 text-pink-700';
-      case 'qa': return 'bg-gray-100 text-gray-700';
-      default: return 'bg-gray-100 text-gray-700';
-    }
+  const getRoleColor = (roleId: string) => {
+    const role = roles.find(r => r.id === roleId);
+    if (!role) return 'bg-gray-100 text-gray-700';
+    return role.color ? `${role.color}20 text-white` : 'bg-gray-100 text-gray-700';
   };
 
-  const getUserRoleInProject = (userId: string) => {
-    const assignment = roleAssignments.find(ra => ra.userId === userId);
-    return assignment ? assignment.role : null;
+  const getRoleName = (roleId: string) => {
+    const role = roles.find(r => r.id === roleId);
+    return role ? role.name : roleId;
   };
+
+  
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -105,12 +97,13 @@ const ProjectRoleManagement: React.FC<ProjectRoleManagementProps> = ({
               <label className="block text-sm font-medium text-gray-700 mb-1">Assign Role</label>
               <select
                 value={newRole.role}
-                onChange={(e) => setNewRole({ ...newRole, role: e.target.value as ProjectRole['role'] })}
+                onChange={(e) => setNewRole({ ...newRole, role: e.target.value })}
                 className="input-field"
               >
-                {availableRoles.map(role => (
-                  <option key={role} value={role}>
-                    {role.charAt(0).toUpperCase() + role.slice(1)}
+                <option value="">Select a role...</option>
+                {roles.map(role => (
+                  <option key={role.id} value={role.id}>
+                    {role.name}
                   </option>
                 ))}
               </select>
@@ -156,8 +149,8 @@ const ProjectRoleManagement: React.FC<ProjectRoleManagementProps> = ({
               </div>
               
               <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleColor(assignment.role)}`}>
-                  {assignment.role.charAt(0).toUpperCase() + assignment.role.slice(1)}
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleColor(assignment.role)}`} style={{ backgroundColor: roles.find(r => r.id === assignment.role)?.color + '20', color: roles.find(r => r.id === assignment.role)?.color }}>
+                  {getRoleName(assignment.role)}
                 </span>
                 
                 <div className="text-xs text-gray-500">
