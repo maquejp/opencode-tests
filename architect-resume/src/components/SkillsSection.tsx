@@ -1,18 +1,5 @@
 import React from 'react';
-
-interface Skill {
-  name: string;
-  level: 'expert' | 'advanced' | 'intermediate' | 'basic';
-}
-
-interface SkillCategory {
-  category: string;
-  skills: Skill[];
-}
-
-interface SkillsSectionProps {
-  skillCategories: SkillCategory[];
-}
+import { Skill, SkillCategory, SkillsSectionProps } from '../types';
 
 const SkillsSection: React.FC<SkillsSectionProps> = ({ skillCategories }) => {
   const getLevelColor = (level: string) => {

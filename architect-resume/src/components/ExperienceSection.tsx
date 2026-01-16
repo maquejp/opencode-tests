@@ -1,17 +1,5 @@
 import React from 'react';
-
-interface Experience {
-  company: string;
-  position: string;
-  duration: string;
-  location: string;
-  responsibilities: string[];
-  technologies?: string[];
-}
-
-interface ExperienceSectionProps {
-  experiences: Experience[];
-}
+import { Experience, ExperienceSectionProps } from '../types';
 
 const ExperienceSection: React.FC<ExperienceSectionProps> = ({ experiences }) => {
   return (

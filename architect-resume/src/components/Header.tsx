@@ -1,13 +1,7 @@
 import React from 'react';
+import { PersonalInfo } from '../types';
 
-interface HeaderProps {
-  name: string;
-  title: string;
-  location: string;
-  email: string;
-  phone: string;
-  linkedin?: string;
-}
+interface HeaderProps extends PersonalInfo {}
 
 const Header: React.FC<HeaderProps> = ({ name, title, location, email, phone, linkedin }) => {
   return (

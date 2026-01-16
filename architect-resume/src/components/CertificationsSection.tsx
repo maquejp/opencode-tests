@@ -1,15 +1,5 @@
 import React from 'react';
-
-interface Certification {
-  name: string;
-  issuer: string;
-  date: string;
-  credentialId?: string;
-}
-
-interface CertificationsSectionProps {
-  certifications: Certification[];
-}
+import { Certification, CertificationsSectionProps } from '../types';
 
 const CertificationsSection: React.FC<CertificationsSectionProps> = ({ certifications }) => {
   return (

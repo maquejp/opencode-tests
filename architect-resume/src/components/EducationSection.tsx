@@ -1,16 +1,5 @@
 import React from 'react';
-
-interface Education {
-  degree: string;
-  institution: string;
-  location: string;
-  duration: string;
-  achievements?: string[];
-}
-
-interface EducationSectionProps {
-  education: Education[];
-}
+import { Education, EducationSectionProps } from '../types';
 
 const EducationSection: React.FC<EducationSectionProps> = ({ education }) => {
   return (
