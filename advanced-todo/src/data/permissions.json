@@ -1,0 +1,15 @@
+[
+  "read",
+  "write",
+  "delete",
+  "manage_users",
+  "manage_projects",
+  "assign_tasks",
+  "update_tasks",
+  "upload_assets",
+  "report_bugs",
+  "create_requirements",
+  "view_reports",
+  "deploy",
+  "manage_infrastructure"
+]

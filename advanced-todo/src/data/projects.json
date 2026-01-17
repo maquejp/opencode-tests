@@ -1,0 +1,83 @@
+[
+  {
+    "id": "1",
+    "name": "Website Redesign",
+    "description": "Complete overhaul of company website with modern design and improved UX",
+    "status": "active",
+    "createdBy": "1",
+    "createdAt": "2025-01-10T00:00:00.000Z",
+    "updatedAt": "2025-01-15T00:00:00.000Z",
+    "assignedTo": ["1", "2", "4"],
+    "roleAssignments": [
+      {
+        "userId": "1",
+        "role": "admin",
+        "assignedAt": "2025-01-10T00:00:00.000Z",
+        "assignedBy": "1"
+      },
+      {
+        "userId": "2",
+        "role": "pm",
+        "assignedAt": "2025-01-11T00:00:00.000Z",
+        "assignedBy": "1"
+      },
+      {
+        "userId": "4",
+        "role": "designer",
+        "assignedAt": "2025-01-12T00:00:00.000Z",
+        "assignedBy": "1"
+      }
+    ],
+    "dueDate": "2025-02-16T00:00:00.000Z",
+    "tags": ["design", "frontend", "marketing"],
+    "color": "#3B82F6"
+  },
+  {
+    "id": "2",
+    "name": "Mobile App Development",
+    "description": "Create cross-platform mobile application for customer engagement",
+    "status": "active",
+    "createdBy": "1",
+    "createdAt": "2025-01-12T00:00:00.000Z",
+    "updatedAt": "2025-01-16T00:00:00.000Z",
+    "assignedTo": ["2", "3"],
+    "roleAssignments": [
+      {
+        "userId": "2",
+        "role": "pm",
+        "assignedAt": "2025-01-12T00:00:00.000Z",
+        "assignedBy": "1"
+      },
+      {
+        "userId": "3",
+        "role": "developer",
+        "assignedAt": "2025-01-13T00:00:00.000Z",
+        "assignedBy": "1"
+      }
+    ],
+    "dueDate": "2025-02-06T00:00:00.000Z",
+    "tags": ["mobile", "development"],
+    "color": "#10B981"
+  },
+  {
+    "id": "3",
+    "name": "API Integration",
+    "description": "Integrate third-party payment and shipping APIs",
+    "status": "active",
+    "createdBy": "2",
+    "createdAt": "2025-01-14T00:00:00.000Z",
+    "updatedAt": "2025-01-17T00:00:00.000Z",
+    "assignedTo": ["3"],
+    "roleAssignments": [
+      {
+        "userId": "3",
+        "role": "developer",
+        "assignedAt": "2025-01-14T00:00:00.000Z",
+        "assignedBy": "2"
+      }
+    ],
+    "dueDate": "2025-02-01T00:00:00.000Z",
+    "tags": ["backend", "integration"],
+    "color": "#F59E0B"
+  }
+]

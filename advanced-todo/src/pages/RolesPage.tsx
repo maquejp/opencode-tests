@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RoleDefinition } from '../types';
 import { useRole } from '../contexts';
+import availablePermissions from '../data/permissions.json';
 
 const RolesPage: React.FC = () => {
   const { roles = [], createRole, updateRole, deleteRole, loading, error } = useRole();
@@ -13,21 +14,7 @@ const RolesPage: React.FC = () => {
     permissions: [] as string[],
   });
 
-  const availablePermissions = [
-    'read',
-    'write',
-    'delete',
-    'manage_users',
-    'manage_projects',
-    'assign_tasks',
-    'update_tasks',
-    'upload_assets',
-    'report_bugs',
-    'create_requirements',
-    'view_reports',
-    'deploy',
-    'manage_infrastructure',
-  ];
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

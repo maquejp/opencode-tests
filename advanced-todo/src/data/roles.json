@@ -1,0 +1,65 @@
+[
+  {
+    "id": "admin",
+    "name": "Administrator",
+    "description": "Full access to all projects and system settings",
+    "color": "#EF4444",
+    "permissions": ["read", "write", "delete", "manage_users", "manage_projects"],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "pm",
+    "name": "Project Manager",
+    "description": "Can manage projects, assign tasks, and view reports",
+    "color": "#3B82F6",
+    "permissions": ["read", "write", "manage_projects", "assign_tasks"],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "developer",
+    "name": "Developer",
+    "description": "Can work on assigned tasks and update project progress",
+    "color": "#10B981",
+    "permissions": ["read", "write", "update_tasks"],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "designer",
+    "name": "Designer",
+    "description": "Can work on design tasks and upload assets",
+    "color": "#EC4899",
+    "permissions": ["read", "write", "update_tasks", "upload_assets"],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "qa",
+    "name": "QA Engineer",
+    "description": "Can test tasks and report bugs",
+    "color": "#6B7280",
+    "permissions": ["read", "write", "update_tasks", "report_bugs"],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "analyst",
+    "name": "Business Analyst",
+    "description": "Can create requirements and analyze project data",
+    "color": "#8B5CF6",
+    "permissions": ["read", "write", "create_requirements", "view_reports"],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "devops",
+    "name": "DevOps Engineer",
+    "description": "Can manage deployment and infrastructure",
+    "color": "#F97316",
+    "permissions": ["read", "write", "deploy", "manage_infrastructure"],
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]
