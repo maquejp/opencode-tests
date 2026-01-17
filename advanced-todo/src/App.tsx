@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
   Navigate,
 } from "react-router-dom";
 import { UserProvider, useUser } from "./contexts/UserContext";
@@ -20,27 +19,7 @@ import GanttPage from "./pages/GanttPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundView from "./pages/NotFoundView";
 
-// Protected Route Wrapper Component
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { currentUser, loading } = useUser();
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!currentUser) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <>{children}</>;
-};
 
 const AppContent: React.FC = () => {
   const { currentUser, loading } = useUser();

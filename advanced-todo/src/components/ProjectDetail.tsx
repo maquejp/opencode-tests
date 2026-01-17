@@ -19,7 +19,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
   onGanttView 
 }) => {
   const { projects = [], updateProject } = useProject();
-  const { tasks = [], createTask } = useTask();
+  const { tasks = [] } = useTask();
   const { users = [], currentUser } = useUser();
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -84,12 +84,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({
     setEditingTask(null);
   };
 
-  const handleCreateTask = (taskData: any) => {
-    createTask({
-      ...taskData,
-      projectId: projectId
-    });
-  };
+  
 
   return (
     <div className="max-w-6xl mx-auto">

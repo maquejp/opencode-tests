@@ -3,11 +3,11 @@ import { User } from '../types';
 import { useUser } from '../contexts';
 
 const UserManagement: React.FC = () => {
-  const { users = [], currentUser, updateUser, deleteUser, register } = useUser();
+  const { users = [], currentUser, deleteUser } = useUser();
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+  
 
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
