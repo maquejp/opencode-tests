@@ -6,6 +6,7 @@ import {
   Certification 
 } from '../types';
 import * as rawData from '../data';
+import { resumeApi } from './api';
 
 // Type assertion utility for consistent data transformation
 export const transformData = {
@@ -23,7 +24,7 @@ export const transformSkillCategories = (data: any): SkillCategory[] => data as 
 export const transformEducation = (data: any): Education[] => data as Education[];
 export const transformCertifications = (data: any): Certification[] => data as Certification[];
 
-// Bulk transformer function
+// Bulk transformer function using static data (fallback)
 export const getAllTransformedData = () => ({
   personalInfo: transformPersonalInfo(rawData.personalInfo),
   experiences: transformExperiences(rawData.experiences),
@@ -31,3 +32,20 @@ export const getAllTransformedData = () => ({
   education: transformEducation(rawData.education),
   certifications: transformCertifications(rawData.certifications)
 });
+
+// API-based data fetcher
+export const fetchAllData = async () => {
+  try {
+    const apiData = await resumeApi.getAllData();
+    return {
+      personalInfo: transformPersonalInfo(apiData.personalInfo),
+      experiences: transformExperiences(apiData.experiences),
+      skillCategories: transformSkillCategories(apiData.skillCategories),
+      education: transformEducation(apiData.education),
+      certifications: transformCertifications(apiData.certifications)
+    };
+  } catch (error) {
+    console.warn('Failed to fetch from API, falling back to static data:', error);
+    return getAllTransformedData();
+  }
+};
