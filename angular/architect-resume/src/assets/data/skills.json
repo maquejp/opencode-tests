@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Cloud & Infrastructure",
+    "skills": ["AWS", "Azure", "Google Cloud", "Kubernetes", "Docker", "Terraform"]
+  },
+  {
+    "name": "Programming Languages",
+    "skills": ["Java", "TypeScript/JavaScript", "Python", "C#", "Go", "SQL"]
+  },
+  {
+    "name": "Frameworks & Platforms",
+    "skills": ["Spring Boot", "React", "Node.js", ".NET Core", "Angular", "Hibernate"]
+  },
+  {
+    "name": "Architecture & Design",
+    "skills": ["Microservices", "Domain-Driven Design", "Event-Driven Architecture", "API Design", "System Integration", "Security Architecture"]
+  }
+]

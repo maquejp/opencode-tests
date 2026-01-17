@@ -1,0 +1,56 @@
+@if (loading()) {
+<div class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 flex items-center justify-center">
+  <div class="text-center">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+    <p class="text-gray-600">Loading resume data...</p>
+  </div>
+</div>
+} @else {
+<div class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50">
+  <app-header [personalInfo]="resumeData().personalInfo"></app-header>
+  <app-experience [experiences]="resumeData().experiences"></app-experience>
+  <app-skills [skillCategories]="resumeData().skillCategories"></app-skills>
+  <app-education [education]="resumeData().education"></app-education>
+  <app-certifications [certifications]="resumeData().certifications"></app-certifications>
+  
+  <footer class="relative py-12 px-6 bg-gradient-to-br from-primary-900 via-secondary-900 to-accent-900 text-white">
+    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="relative z-10 max-w-6xl mx-auto text-center">
+      <div class="mb-6">
+        <div class="w-20 h-20 mx-auto bg-gradient-to-br from-white to-gray-100 rounded-full flex items-center justify-center shadow-2xl mb-4">
+          <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+            <span class="text-white text-2xl font-bold">
+              {{ getInitials(resumeData().personalInfo.name) }}
+            </span>
+          </div>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">{{ resumeData().personalInfo.name }}</h3>
+        <p class="text-white/80">{{ resumeData().personalInfo.title }}</p>
+      </div>
+      
+      <div class="flex justify-center gap-6 mb-6">
+        <a [href]="'mailto:' + resumeData().personalInfo.email" class="glass-effect px-4 py-2 rounded-full flex items-center gap-2 hover-lift">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+          <span>Contact</span>
+        </a>
+        
+        <a [href]="'tel:' + resumeData().personalInfo.phone" class="glass-effect px-4 py-2 rounded-full flex items-center gap-2 hover-lift">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          <span>Call</span>
+        </a>
+      </div>
+      
+      <div class="pt-6 border-t border-white/20">
+        <p class="text-white/60 text-sm">
+          © 2024 {{ resumeData().personalInfo.name }}. Senior Application Architect with 25+ years of excellence.
+        </p>
+      </div>
+    </div>
+  </footer>
+</div>
+}

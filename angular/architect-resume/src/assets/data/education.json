@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "institution": "École Polytechnique Fédérale de Lausanne (EPFL)",
+    "degree": "Ph.D. in Computer Science - Distributed Systems",
+    "field": "Distributed Systems",
+    "startDate": "1999",
+    "endDate": "2003",
+    "description": "Dissertation: 'Scalable Architectures for Enterprise Distributed Systems'. Published 12 papers in peer-reviewed journals and conferences. Graduated summa cum laude."
+  },
+  {
+    "id": "2",
+    "institution": "Technical University of Munich",
+    "degree": "Master of Science in Software Engineering",
+    "field": "Software Architecture and Design Patterns",
+    "startDate": "1997",
+    "endDate": "1999",
+    "description": "GPA: 3.9/4.0"
+  },
+  {
+    "id": "3",
+    "institution": "École Centrale Paris",
+    "degree": "Bachelor of Engineering in Computer Science",
+    "field": "Software Systems and Networks",
+    "startDate": "1994",
+    "endDate": "1997",
+    "description": "Graduated with honors"
+  }
+]
